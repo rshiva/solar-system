@@ -41,7 +41,7 @@ jobs:
     - name: Archive Test Results
       uses: actions/upload-artifact@v4
       with:
-        name: moch-test-result-${{matrix.operating_systems}}-${{matrix.nodejs_version}}
+        name: moch-test-result-*
         path: test-results.xml
     
   code_coverage:
@@ -58,6 +58,9 @@ jobs:
 
     - name: Install Dependencies
       run: npm install
+
+    - name: Check Code Coverage
+      run: npm run coverage
 
     - name: Archive Test Result
       uses: actions/upload-artifact@v4
