@@ -13,21 +13,34 @@ env:
   MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 jobs:
   unit-testing:
+    strategy:
+      matrix:
+        nodejs_version: [18,19,20]
+        operating_systems: [ubuntu-latest, mocos-latest]
+        exclude:
+          - nodejs_version: 18
+            operating_systems: macos-latest
     name: Unit Testing
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.operating_systems}}
 
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
 
-    - name: Install NodeJs version - 18
+    - name: Install NodeJs version - ${{matrix.nodejs_version}}
       uses: actions/setup-node@v3
       with:
-        node-version: 18
+        node-version: ${{matrix.nodejs_version}}
 
     - name: Install dependencies
       run: npm install
     
     - name: unity testing
       run: npm test
+
+    - name: Archive test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: moch-test-result
+        path: test-results.xml
     
