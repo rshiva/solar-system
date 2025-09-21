@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         nodejs_version: [18,19,20]
-        operating_systems: [ubuntu-latest, mocos-latest]
+        operating_systems: [ubuntu-latest, macos-latest]
         exclude:
           - nodejs_version: 18
             operating_systems: macos-latest
@@ -39,7 +39,7 @@ jobs:
       run: npm test
 
     - name: Archive test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: moch-test-result
         path: test-results.xml
