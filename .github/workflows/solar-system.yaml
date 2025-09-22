@@ -32,7 +32,7 @@ jobs:
       with:
         node-version: ${{matrix.nodejs_version}}
 
-    - name: Cache NPM dependencies
+    - name: Cache NPM Dependencies
       uses: actions/cache@v3
       with:
         path: node_modules
