@@ -14,7 +14,7 @@ env:
 jobs:
   unit-testing:
     services:
-      mongodb-db:
+      mongo-db:
         image: siddharth67/mongo-db:non-prod
         ports:
           - 27017:27017
@@ -54,6 +54,10 @@ jobs:
     - name: unity testing
       id: nodejs-unit-testing-step
       run: npm test
+      env:
+        MONGO_URI: mongodb://localhost:27017/superData
+        MONGO_USERNAME: ${{ vars.MONGO_TEST_USERNAME }}
+        MONGO_PASSWORD: ${{ secrets.MONGO_TEST_PASSWORD }}
 
     - name: Archive Test Results
       # if: failure() && (steps.nodejs-unit-testing-step.outcome ==  'failure' || steps.nodejs-unit-testing-step.outcome == 'success')
