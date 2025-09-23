@@ -14,7 +14,7 @@ env:
 jobs:
   unit-testing:
     services:
-      mongodb-service:
+      mongodb-db:
         image: siddharth67/mongo-db:non-prod
         ports:
           - 27017:27017
