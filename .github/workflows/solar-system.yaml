@@ -88,6 +88,8 @@ jobs:
   docker:
     name: Containerization
     needs: [unit-testing, code-coverage]
+    permissions: 
+      packages: write
     runs-on: ubuntu-latest
     steps:
       - name: checkout repo
@@ -102,8 +104,8 @@ jobs:
       - name: GHCR Login
         uses: docker/login-action@v3
         with:
-          register: ghcr.io
-          username: ${{ github.repository_owner }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker Build Testing
