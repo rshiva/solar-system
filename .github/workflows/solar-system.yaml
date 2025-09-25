@@ -12,6 +12,7 @@ env:
   MONGO_USERNAME: ${{vars.MONGO_USERNAME}}
   MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 jobs:
+  # using service container
   unit-testing:
     services:
       mongo-db:
@@ -67,17 +68,31 @@ jobs:
         name: moch-test-result-${{matrix.operating_systems}}-${{matrix.nodejs_version}}
         path: test-results.xml
     
+  # using both service and job container      
   code-coverage:
+    name: code coverage
+    container: 
+      image: node:18
+    services:
+      mongo-db:
+        image: siddharth67/mongo-db:non-prod
+        options:
+          --name mongo
+        env:
+          MONGO_URI: 'mongodb://mongo:27017/superData' #service --name mongo
+          MONGO_USERNAME: ${{vars.MONGO_TEST_USERNAME}}
+          MONGO_PASSWORD: ${{ secrets.MONGO_TEST_PASSWORD }}
+    
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repo
       uses: actions/checkout@v4
 
-    - name: Setup NodeJs Version 18
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
+    # - name: Setup NodeJs Version 18
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: 18
 
     - name: Cache NPM dependencies
       uses: actions/cache@v3
