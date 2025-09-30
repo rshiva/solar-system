@@ -172,7 +172,14 @@ jobs:
     needs: docker
     uses: ./.github/workflows/reuse-deploy.yaml
     # using environment variables created in github repo setting
-    
+    secrets:
+      k8s-kubeconfig: ${{ secrets.KUBECONFIG}}
+      mongodb-password: ${{ secrets.MONGO_PASSWORD}}
+    with:
+      mongodb-uri: ${{ vars.MONGO_URI}}
+      environment: development
+      k8s-manifest-dir: kubernetes/development/
+      
 
 
   #dev integration-testing
@@ -196,6 +203,14 @@ jobs:
     needs: docker
     # using environment variables created in github repo setting
     uses: ./.github/workflows/reuse-deploy.yaml
+    secrets:
+      k8s-kubeconfig: ${{ secrets.KUBECONFIG}}
+      mongodb-password: ${{ secrets.MONGO_PASSWORD}}
+    with:
+      mongodb-uri: ${{ vars.MONGO_URI}}
+      environment: production
+      k8s-manifest-dir: kubernetes/productions/
+
 
   #prod integration-testing
   prod-integration-testing:
