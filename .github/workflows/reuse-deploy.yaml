@@ -14,6 +14,7 @@ on:
       environment:
         required: true
         type: string
+        default: development
       k8s-manifest-dir:
         required: true
         type: string
@@ -21,6 +22,10 @@ on:
         required: false
         type: string
         default: 'v1.26.0'
+    outputs:
+      application-url: 
+        description: "The application's public URL."
+        value: ${{ jobs.reuse-deploy.outputs.APP_INGRESS_URL}}
 
 
 jobs:
