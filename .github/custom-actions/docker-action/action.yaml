@@ -1,0 +1,16 @@
+name: 'Npm Custom Composite Action'
+description: 'Installing and Caching NPM packages'
+inputs:
+  github-token:
+    description: 'GitHub Token'
+    required: true
+  giphy-api-key:
+    description: 'Giphy Token'
+    required: true
+
+runs:
+  using: "docker"
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.github-token }}
+    - ${{ inputs.giphy-api-key }}
